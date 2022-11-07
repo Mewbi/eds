@@ -15,8 +15,7 @@ A coluna responses armazena um json contendo as respostas que o usuário fez na
 seguinte forma:
 
 ```json
-{
-  "responses": [
+[
     {
       "question_id": "asldjkhas1238412",
       "response": true
@@ -29,8 +28,7 @@ seguinte forma:
       "question_id": "a0s8796asfasdf6f",
       "response": true
     }
-  ]
-}
+]
 ```
 
 Para calcular a eficácia de uma questão basta fazer a razão entre a quantidade

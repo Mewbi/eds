@@ -1,0 +1,7 @@
+Debug = true
+
+[db]
+    Address = "database.db"
+
+[server]
+    Port = ":8000"
