@@ -7,5 +7,5 @@ CREATE TABLE test_results (
     email VARCHAR(250) NOT NULL CHECK (LENGTH(email) > 0), 
     responses VARCHAR(1000) NOT NULL CHECK(LENGTH(responses) > 0),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    confirmation BOOLEAN DEFAULT NULL,
+    confirmation BOOLEAN DEFAULT NULL
 );
