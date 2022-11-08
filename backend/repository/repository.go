@@ -31,7 +31,7 @@ func GetResults() ([]Result, error ){
         return results, err
     }
     defer db.Close()
-    rows, err := db.Query("SELECT * FROM test_results")
+    rows, err := db.Query("SELECT * FROM test_results WHERE confirmation = true")
     if err != nil {
         return results, err
     }

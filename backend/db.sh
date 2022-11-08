@@ -15,7 +15,7 @@ function help() {
         Create new database based in schema file
 
     --populate|-p)
-        Populate database base in data file
+        Populate database based in data file
 END
 }
 
