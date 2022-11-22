@@ -9,3 +9,16 @@ CREATE TABLE test_results (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     confirmation BOOLEAN DEFAULT NULL
 );
+
+DROP TABLE IF EXISTS questions;
+CREATE TABLE questions (
+    id VARCHAR(36) NOT NULL PRIMARY KEY CHECK (LENGTH(id) > 0),
+    content TEXT
+);
+
+DROP TABLE IF EXISTS questions_effectiveness;
+CREATE TABLE questions_effectiveness (
+    question_id VARCHAR(36) NOT NULL PRIMARY KEY CHECK (LENGTH(question_id) > 0),
+    total INTEGER,
+    effectiveness FLOAT
+);

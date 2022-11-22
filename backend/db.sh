@@ -23,6 +23,20 @@ function create() {
     sqlite3 database.db < migrations/sqlite/schema.sql
 }
 
+function populate_questions() {
+    questions=$1
+    file=$2
+
+    echo "INSERT INTO questions (id, content) VALUES " >> $file
+    data=""
+    for q in ${questions[@]}; do
+        data="$data ('${q}', '<h2>Question: ${q}</h2>'),"
+    done
+    data=${data::-1}
+    data="${data};"
+    echo $data >> $file
+}
+
 function populate() {
     n=100
     file="migrations/sqlite/data.sql"
@@ -32,7 +46,10 @@ function populate() {
         n=$1
     fi
 
-    echo "INSERT INTO test_results (id, name, email, responses, created_at, confirmation) VALUES " > $file
+    > $file # Erase data.sql
+    populate_questions $questions $file
+
+    echo "INSERT INTO test_results (id, name, email, responses, created_at, confirmation) VALUES " >> $file
     for i in $(seq $n); do
         id="'$(echo $RANDOM | md5sum | head -c 10)'"
         name="${names[ $(expr $RANDOM % ${#names[@]}) ]}"

@@ -2,6 +2,7 @@ package server
 
 import (
 	"dyslexia/conf"
+    "dyslexia/model"
 	"dyslexia/repository"
 	"encoding/json"
 	"fmt"
@@ -12,7 +13,12 @@ import (
 )
 
 func getQuestions(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Returning question")
+    results, err := repository.GetQuestions(10)
+    if err != nil {
+        log.Panic(err)
+    }
+
+    json.NewEncoder(w).Encode(results)
 }
 
 func getSus(w http.ResponseWriter, r *http.Request) {
@@ -27,11 +33,6 @@ func saveTest(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Saving test results in database xD")
 }
 
-type Effectiveness struct {
-    Total int
-    Correct int
-    Effectiveness float64
-}
 
 func calculateEffectiveness(w http.ResponseWriter, r *http.Request) {
     results, err := repository.GetResults()
@@ -39,7 +40,7 @@ func calculateEffectiveness(w http.ResponseWriter, r *http.Request) {
         log.Panic(err)
     }
 
-    questionsEffectiveness := make(map[string]Effectiveness)
+    questionsEffectiveness := make(map[string]model.Effectiveness)
     var correctIncr int
 
     for _, result := range results {
@@ -56,7 +57,7 @@ func calculateEffectiveness(w http.ResponseWriter, r *http.Request) {
                 questionsEffectiveness[question.QuestionID] = effectiveness
                 continue
             }
-            questionsEffectiveness[question.QuestionID] = Effectiveness{
+            questionsEffectiveness[question.QuestionID] = model.Effectiveness{
                 Total: 1,
                 Correct: correctIncr,
             }
@@ -66,6 +67,11 @@ func calculateEffectiveness(w http.ResponseWriter, r *http.Request) {
     for id, question := range questionsEffectiveness {
         question.Effectiveness = float64(question.Correct) / float64(question.Total)
         questionsEffectiveness[id] = question
+    }
+
+    err = repository.UpdateEffectiveness(questionsEffectiveness)
+    if err != nil {
+        log.Panic(err)
     }
     json.NewEncoder(w).Encode(questionsEffectiveness)
 }
