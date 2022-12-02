@@ -81,11 +81,15 @@ func Start() {
 
 	r := mux.NewRouter().StrictSlash(true)
 
+    // API Content
 	r.HandleFunc("/questions", getQuestions).Methods("GET")
 	r.HandleFunc("/sus", getSus).Methods("GET")
 	r.HandleFunc("/hospitals", getHospitals).Methods("GET")
 	r.HandleFunc("/save-test", getHospitals).Methods("POST")
 	r.HandleFunc("/effectiveness", calculateEffectiveness).Methods("GET")
+
+    // Web Content
+    r.PathPrefix("/").Handler(http.FileServer(http.Dir("./web/")))
 
     fmt.Printf("Listen in %s\n", config.Server.Port)
 	log.Fatal(http.ListenAndServe(config.Server.Port, r))
