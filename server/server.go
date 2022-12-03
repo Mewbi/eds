@@ -8,9 +8,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os/exec"
 
 	"github.com/gorilla/mux"
-    "github.com/gorilla/schema"
+	"github.com/gorilla/schema"
 )
 
 func getQuestions(w http.ResponseWriter, r *http.Request) {
@@ -73,18 +74,49 @@ func getComments(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(comments)
 }
 
-func getSus(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Returning sus")
-}
-
-func getHospitals(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Returning hospitals")
-}
-
 func saveTest(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Success")
 }
 
+func populateEffectiveness(w http.ResponseWriter, r *http.Request) {
+    var auth model.Auth
+    config := conf.Get()
+
+    err := r.ParseForm()
+    if err != nil {
+        log.Panicf("Error reading body %v", err)
+    }
+
+    decoder := schema.NewDecoder()
+    err = decoder.Decode(&auth, r.Form)
+    if err != nil {
+        log.Panicf("Error decoding form: %v", err)
+    }
+
+    if auth.Auth != config.Server.Auth {
+        json.NewEncoder(w).Encode(false)
+        return
+    }
+
+    cmd := exec.Command("bash", "db.sh", "-c")
+    err = cmd.Run()
+
+    if err != nil {
+        log.Fatal(err)
+        json.NewEncoder(w).Encode(false)
+        return
+    }
+
+    cmd = exec.Command("bash", "db.sh", "-p")
+    err = cmd.Run()
+
+    if err != nil {
+        log.Fatal(err)
+        json.NewEncoder(w).Encode(false)
+        return
+    }
+    json.NewEncoder(w).Encode(true)
+}
 
 func calculateEffectiveness(w http.ResponseWriter, r *http.Request) {
     results, err := repository.GetResults()
@@ -135,11 +167,10 @@ func Start() {
 
     // API Content
 	r.HandleFunc("/questions", getQuestions).Methods("GET")
-	r.HandleFunc("/sus", getSus).Methods("GET")
-	r.HandleFunc("/hospitals", getHospitals).Methods("GET")
 	r.HandleFunc("/comment", createComment).Methods("POST")
 	r.HandleFunc("/comment/view", getComments).Methods("POST")
 	r.HandleFunc("/effectiveness", calculateEffectiveness).Methods("GET")
+	r.HandleFunc("/effectiveness/populate", populateEffectiveness).Methods("POST")
 
     // Web Content
     r.PathPrefix("/").Handler(http.FileServer(http.Dir("./web/")))

@@ -1,4 +1,14 @@
-# Backend
+# EDS
+
+Repositório com o MVP do projeto referente a matéria de EDS - UFABC
+
+## Objetivo
+
+Criar uma aplicação realiza o teste para crianças e jovens para apresentar se a pessoa tem tendências de possuir dislexia.
+
+## Aplicação
+
+A template web utilizado foi obtido em: https://www.free-css.com/free-css-templates/page284/space-dynamic
 
 Para iniciar o backend é necesssário ter o Go 1.18
 
@@ -7,31 +17,10 @@ go get
 go run main.go
 ```
 
-## Resultados
+A aplicação apresenta apenas resultados fictícios sobre os testes.
 
-Os resultados dos testes são armazenados em um banco de dados SQL.
+Contudo as seguintes funcionalidades foram implementadas:
 
-A coluna responses armazena um json contendo as respostas que o usuário fez na
-seguinte forma:
-
-```json
-[
-    {
-      "question_id": "asldjkhas1238412",
-      "response": true
-    },
-    {
-      "question_id": "96f789vcbx6bx6c8",
-      "response": false
-    },
-    {
-      "question_id": "a0s8796asfasdf6f",
-      "response": true
-    }
-]
-```
-
-Para calcular a eficácia de uma questão basta fazer a razão entre a quantidade
-de vezes que a o status da response foi igual ao status de confirmação pela
-quantidade total de vezes que a questão foi apresentada, quanto mais próximo
-de 1, mais precisa é a questão.
+- Cálculo da assertividade das questões
+- Repopulação dos dados
+- Comentários

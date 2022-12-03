@@ -46,8 +46,3 @@ function get_comments() {
     })
 }
 
-function get_effectiveness() {
-    $.get("/effectiveness", function(response) {
-        console.log(response)
-    })
-}
