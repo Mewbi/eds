@@ -5,3 +5,4 @@ Debug = true
 
 [server]
     Port = ":8000"
+    Auth = "b972e58b43af4730e439efaa6f14cb79"

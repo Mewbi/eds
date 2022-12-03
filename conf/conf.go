@@ -13,6 +13,7 @@ type Database struct {
 
 type Server struct {
 	Port string
+    Auth string
 }
 
 type Config struct {

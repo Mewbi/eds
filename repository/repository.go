@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/google/uuid"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -130,4 +131,52 @@ func UpdateEffectiveness(questionsEffectiveness map[string]model.Effectiveness) 
         }
     }
     return nil
+}
+
+func CreateComment(name string, comment string) error {
+	config := conf.Get()
+	db, err := sql.Open("sqlite3", config.Db.Address)
+    if err != nil {
+        return err
+    }
+    defer db.Close()
+
+    id := uuid.New().String()
+    query, err := db.Prepare(`INSERT INTO comments (id, name, comment) VALUES (?, ?, ?)`)
+    if err != nil {
+        return err
+    }
+
+    _, err = query.Exec(id, name, comment)
+    return err
+}
+
+func GetComments() ([]model.Comment, error) {
+    var comments []model.Comment
+	config := conf.Get()
+	db, err := sql.Open("sqlite3", config.Db.Address)
+    if err != nil {
+        return comments, err
+    }
+    defer db.Close()
+    rows, err := db.Query(`SELECT name, comment FROM comments LIMIT 1000`)
+    if err != nil {
+        return comments, err
+    }
+
+    for rows.Next() {
+        var name string
+        var comment string
+
+        err = rows.Scan(&name, &comment)
+        if err != nil {
+            continue
+        }
+
+        comments = append(comments, model.Comment{
+            Name: name,
+            Comment: comment,
+        })
+    }
+	return comments, nil
 }

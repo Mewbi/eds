@@ -61,6 +61,7 @@ https://templatemo.com/tm-562-space-dynamic
               <li class="scroll-to-section"><a href="#top" class="active">Início</a></li>
               <li class="scroll-to-section"><a href="#about">Resultados</a></li>
               <li class="scroll-to-section"><a href="#contact">Sugestões</a></li> 
+              <li class="scroll-to-section"><a href="comments.html">Comentários</a></li> 
               <li class="scroll-to-section"><div class="main-red-button"><a href="#contact">Realizar Teste</a></div></li> 
             </ul>        
             <a class='menu-trigger'>
@@ -348,39 +349,31 @@ https://templatemo.com/tm-562-space-dynamic
       <div class="row">
         <div class="col-lg-6 align-self-center wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.25s">
           <div class="section-heading">
-            <h2>Feel Free To Send Us a Message About Your Website Needs</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doer ket eismod tempor incididunt ut labore et dolores</p>
-            <div class="phone-info">
-              <h4>For any enquiry, Call Us: <span><i class="fa fa-phone"></i> <a href="#">010-020-0340</a></span></h4>
-            </div>
+            <h2>Deixe a Sua Opinião!</h2>
+            <p>Toda opinião, sugestão ou crítica é importante para estarmos sempre melhorando, fique a vontade de compartilhar a sua conosco.</p>
           </div>
         </div>
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="0.5s" data-wow-delay="0.25s">
-          <form id="contact" action="" method="post">
+          <form id="contact" action="javascript:submit()" method="post">
             <div class="row">
               <div class="col-lg-6">
                 <fieldset>
-                  <input type="name" name="name" id="name" placeholder="Name" autocomplete="on" required>
+                  <input type="name" name="name" id="name" placeholder="Nome" autocomplete="on" required>
                 </fieldset>
               </div>
               <div class="col-lg-6">
                 <fieldset>
-                  <input type="surname" name="surname" id="surname" placeholder="Surname" autocomplete="on" required>
+                  <input type="surname" name="surname" id="surname" placeholder="Sobrenome" autocomplete="on" required>
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
+                  <textarea name="message" type="text" class="form-control" id="message" placeholder="Mensagem" required=""></textarea>  
                 </fieldset>
               </div>
               <div class="col-lg-12">
                 <fieldset>
-                  <textarea name="message" type="text" class="form-control" id="message" placeholder="Message" required=""></textarea>  
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <button type="submit" id="form-submit" class="main-button ">Send Message</button>
+                  <button type="submit" id="form-submit" class="main-button">Enviar</button>
                 </fieldset>
               </div>
             </div>
@@ -397,9 +390,7 @@ https://templatemo.com/tm-562-space-dynamic
     <div class="container">
       <div class="row">
         <div class="col-lg-12 wow fadeIn" data-wow-duration="1s" data-wow-delay="0.25s">
-          <p>© Copyright 2021 Space Dynamic Co. All Rights Reserved. 
-          
-          <br>Design: <a rel="nofollow" href="https://templatemo.com">TemplateMo</a></p>
+          <p>Projeto : <a rel="nofollow" href="https://github.com/Mewbi/eds">GitHub</a></p>
         </div>
       </div>
     </div>
@@ -411,6 +402,7 @@ https://templatemo.com/tm-562-space-dynamic
   <script src="assets/js/animation.js"></script>
   <script src="assets/js/imagesloaded.js"></script>
   <script src="assets/js/templatemo-custom.js"></script>
+  <script src="assets/js/api.js"></script>
 
 </body>
 </html>

@@ -2,7 +2,7 @@ package server
 
 import (
 	"dyslexia/conf"
-    "dyslexia/model"
+	"dyslexia/model"
 	"dyslexia/repository"
 	"encoding/json"
 	"fmt"
@@ -10,6 +10,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+    "github.com/gorilla/schema"
 )
 
 func getQuestions(w http.ResponseWriter, r *http.Request) {
@@ -21,6 +22,57 @@ func getQuestions(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(results)
 }
 
+func createComment(w http.ResponseWriter, r *http.Request) {
+    var comment model.Comment
+
+    err := r.ParseForm()
+    if err != nil {
+        log.Panicf("Error reading body %v", err)
+    }
+
+    decoder := schema.NewDecoder()
+    err = decoder.Decode(&comment, r.Form)
+    if err != nil {
+         log.Panicf("Error decoding form: %v", err)
+    }
+
+    err = repository.CreateComment(comment.Name, comment.Comment)
+    if err != nil {
+         log.Panicf("Error creating comment: %v", err)
+    }
+
+	json.NewEncoder(w).Encode("Success")
+}
+
+func getComments(w http.ResponseWriter, r *http.Request) {
+    var auth model.Auth
+    var comments []model.Comment
+    config := conf.Get()
+
+    err := r.ParseForm()
+    if err != nil {
+        log.Panicf("Error reading body %v", err)
+    }
+
+    decoder := schema.NewDecoder()
+    err = decoder.Decode(&auth, r.Form)
+    if err != nil {
+        log.Panicf("Error decoding form: %v", err)
+    }
+
+    if auth.Auth != config.Server.Auth {
+        json.NewEncoder(w).Encode(comments)
+        return
+    }
+
+    comments, err = repository.GetComments()
+    if err != nil {
+        log.Panicf("Error getting comments: %v", err)
+    }
+
+    json.NewEncoder(w).Encode(comments)
+}
+
 func getSus(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Returning sus")
 }
@@ -30,7 +82,7 @@ func getHospitals(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveTest(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Saving test results in database xD")
+	json.NewEncoder(w).Encode("Success")
 }
 
 
@@ -85,7 +137,8 @@ func Start() {
 	r.HandleFunc("/questions", getQuestions).Methods("GET")
 	r.HandleFunc("/sus", getSus).Methods("GET")
 	r.HandleFunc("/hospitals", getHospitals).Methods("GET")
-	r.HandleFunc("/save-test", getHospitals).Methods("POST")
+	r.HandleFunc("/comment", createComment).Methods("POST")
+	r.HandleFunc("/comment/view", getComments).Methods("POST")
 	r.HandleFunc("/effectiveness", calculateEffectiveness).Methods("GET")
 
     // Web Content

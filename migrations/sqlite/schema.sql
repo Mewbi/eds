@@ -22,3 +22,10 @@ CREATE TABLE questions_effectiveness (
     total INTEGER,
     effectiveness FLOAT
 );
+
+DROP TABLE IF EXISTS comments;
+CREATE TABLE comments (
+    id VARCHAR(36) NOT NULL PRIMARY KEY CHECK (LENGTH(id) > 0),
+    name TEXT,
+    comment TEXT
+);

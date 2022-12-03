@@ -6,3 +6,11 @@ type Effectiveness struct {
     Effectiveness float64
 }
 
+type Auth struct  {
+    Auth string `schema:"auth"`
+}
+
+type Comment struct {
+    Name string `schema:"name"`
+    Comment string `schema:"msg"`
+}
