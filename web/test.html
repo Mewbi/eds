@@ -83,24 +83,32 @@ https://templatemo.com/tm-562-space-dynamic
         <div class="col-lg-12">
         <div class="text-center">
         <div class="mb-2 section-heading">
-            <h2><em>Leia</em> os <span>Comentários</span></h2>
-                <p>Para ler os comentários, insira a senha de validação.</p>
+            <h2><em>Iniciar</em> <span>Teste</span></h2>
+                <p>O teste escolhe as questões com base nas que possuem maior taxa de assertividade.</p>
+                <br>
+                <p>Insira o nome da criança ou jovem que irá realizar o teste e o e-mail que receberá o resultado.</p>
+                <br>
+                <p>Após iniciar o teste deixe a criança realizar as questões em interferências.</p>
             </div>
-            <form action="javascript:get_comments()" method="post">
+            <form action="javascript:get_questions()" method="post">
                 <div class="form-group">
-                    <input type="auth" class="form-control" id="auth" placeholder="Senha">
+                    <input class="form-control" id="nome" placeholder="Nome">
                 </div>
-                <button type="submit" class="mt-3 btn btn-primary">Buscar</button>
+
+                <div class="form-group">
+                    <input class="form-control" id="email" placeholder="E-mail">
+                </div>
+                <button type="submit" class="mt-3 btn btn-primary">Iniciar</button>
             </form>
         </div>
-        <table class="mt-5 table table-borderless">
+        <table class="mt-5 table table-borderless text-center">
             <thead>
                 <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Comentário</th>
+                    <th scope="col">Nº</th>
+                    <th scope="col">Questão</th>
                 </tr>
             </thead>
-            <tbody id="comments">
+            <tbody id="questions-test">
             </tbody>
         </table>
         </div>
@@ -126,6 +134,7 @@ https://templatemo.com/tm-562-space-dynamic
   <script src="assets/js/imagesloaded.js"></script>
   <script src="assets/js/templatemo-custom.js"></script>
   <script src="assets/js/api.js"></script>
+  <script src="assets/js/questions.js"></script>
 
 </body>
 </html>
